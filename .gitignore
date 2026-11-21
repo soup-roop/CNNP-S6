@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary pcap captures generated during lab runs
+/tmp/cap*.pcap
+*.pcap.tmp
+
+# OS generated files
+.DS_Store
+ehthumbs.db
+Thumbs.db
+desktop.ini

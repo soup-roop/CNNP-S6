@@ -1,0 +1,51 @@
+=====================================================================
+           CNNP SKILL 2 - THREE-POINT CAPTURE ANALYSIS
+=====================================================================
+
+[1] Checking Capture File Sizes (Stage 12):
+-rw-r--r-- 1 root root 4.3K Nov 20 09:36 /tmp/cap1.pcap
+-rw-r--r-- 1 root root 4.3K Nov 20 09:36 /tmp/cap2.pcap
+-rw-r--r-- 1 root root 4.3K Nov 20 09:36 /tmp/cap3.pcap
+
+[2] Checking IP TTL at All Three Points (Stage 13):
+--- Point 1 (host1): cap1.pcap ---
+      9 63
+     12 64
+Expected: TTL 64 (for outbound packets originated by host1)
+
+--- Point 2 (router): cap2.pcap ---
+      9 63
+     12 64
+Expected: TTL 64 on ingress interface veth-r1
+
+--- Point 3 (host2): cap3.pcap ---
+     12 63
+      9 64
+Expected: TTL 63 (TTL decremented by 1 at router before forwarding to host2)
+
+[3] Extracting Message Payload from Router Capture (Stage 14):
+Hello from host1!
+This is Alekhya
+Computer Networks Lab
+Three Point Capture Experiment
+Message traveling through router
+
+[4] Checking Relative SYN Timestamps across Points (Delay Check):
+Point 1 (host1):  0.000000000
+Point 2 (router): 0.000142100
+Point 3 (host2):  0.020312500
+Analysis: Difference between Point 1 and Point 3 is 20.31 ms ≈ 20ms netem delay.
+
+[5] Checking TCP Retransmissions:
+cap1.pcap retransmissions: 0
+cap2.pcap retransmissions: 0
+cap3.pcap retransmissions: 0
+
+[6] MTR Path RTT Report:
+HOST: Ubuntu-Lab          Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1.|-- 10.0.1.2           0.0%    10    0.1   1.0   0.0   9.2   2.9
+  2.|-- 10.0.2.2           0.0%    10   20.3  20.6  20.2  22.9   0.8
+
+=====================================================================
+                    ANALYSIS COMPLETED SUCCESSFULLY
+=====================================================================
